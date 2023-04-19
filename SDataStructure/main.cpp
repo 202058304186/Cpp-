@@ -1,5 +1,6 @@
 #include<iostream>
 #include<memory>
+#include<vector>
 #include"BadLinkList.h"
 
 using std::unique_ptr;

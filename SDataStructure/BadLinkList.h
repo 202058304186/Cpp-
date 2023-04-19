@@ -1,6 +1,4 @@
-#if 0
-#ifndef MYBASE_LINK_LIST
-#define MYBASE_LINK_LIST
+/*
 #include<memory>
 #include<iostream>
 using std::unique_ptr;
@@ -70,17 +68,13 @@ template<class T>
 inline bool BadLinkList<T>::insert(T* value， int pos)
 {
 	return false;
-}
-#endif // !MYBASE_LINK_LIST
-#endif
-
-#ifndef MYBASE_LINK_LIST
-#define MYBASE_LINK_LIST
+}*/
 #include<memory>
 #include<iostream>
 using std::unique_ptr;
 using std::make_unique;
 using std::ostream;
+
 
 //链表节点
 template<class T>
@@ -89,32 +83,31 @@ struct Node {
 	struct Node* next;
 };
 
+template<class T>
+class _badVector_iterator {
+	Node<T>* _pn;
+public:
+	_badVector_iterator() : _pn(nullptr) {}
+	_badVector_iterator(Node<T>* pn) : _pn(pn) {}
+	~_badVector_iterator() {};
+	T& operator*() { return *(_pn->data); };
+	operator Node<T>* () { return _pn; }
+	_badVector_iterator& operator++() {
+		_pn = _pn->next;
+		return *this;
+	}
+	_badVector_iterator& operator++(int) {
+		_badVector_iterator tmp = *this;
+		_pn = _pn->next;
+		return tmp;
+	}
+};
 
 //单链表
 template <class T>
 class BadLinkList
 {
-	 
-	typedef class linkListIterator iterator;
-
-	class iterator {
-		Node<T>* pn;
-	public:
-		iterator() : pt(nullptr) {}
-		iterator(Node* pn) : pt(pn) {}
-		~iterator() {};
-		T operator*() { return move(pn->data) };
-		iterator& operator++() {
-			pn = pn->next;
-			return *this;
-		}
-		iterator& operator++(int) {
-			iterator tmp = *this;
-			pn = pn->next;
-			return tmp;
-		}
-	};
-
+using iterator = _badVector_iterator<T>;
 private:
 	Node<T>* head;			//头结点
 	uint32_t length;	//长度
@@ -125,7 +118,7 @@ public:
 	BadLinkList() { 
 		length = 0; 
 		head = new Node<T>; 
-		_end = new Node<T>
+		_end = new Node<T>;
 		head->next = _end; 
 		_begin = head->next;
 	}
@@ -314,4 +307,3 @@ inline unique_ptr<T> BadLinkList<T>::pop()
 	length--;
 	return res;
 }
-#endif // !MYBASE_LINK_LIST
